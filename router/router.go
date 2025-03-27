@@ -12,5 +12,6 @@ func Initialize() {
 	// Initialize Routes
 	initializeRoutes(r)
 
+	// Run Server
 	r.Run()
 }
