@@ -19,7 +19,7 @@ type CreateOpeningRequest struct {
 	Salary   int64  `json:"salary"`
 }
 
-func (r *CreateOpeningRequest) Validate() []string {
+func (r *CreateOpeningRequest) Validate() error {
 	var errors []string
 
 	if r.Role == "" {
@@ -41,7 +41,7 @@ func (r *CreateOpeningRequest) Validate() []string {
 		errors = append(errors, errParamIsRequired("remote", "bool").Error())
 	}
 
-	return errors
+	return nil
 }
 
 type UpdateOpeningRequest struct {

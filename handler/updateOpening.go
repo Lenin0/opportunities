@@ -14,20 +14,20 @@ func UpdateOpeningHandler(ctx *gin.Context) {
 
 	if err := request.Validate(); err != nil {
 		logger.Errorf("validation error: %v", err.Error())
-		sendErro(ctx, http.StatusBadRequest, err.Error())
+		sendError(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	id := ctx.Query("id")
 	if id == "" {
-		sendErro(ctx, http.StatusBadRequest, errParamIsRequired("id", "queryParameter").Error())
+		sendError(ctx, http.StatusBadRequest, errParamIsRequired("id", "queryParameter").Error())
 		return
 	}
 
-	opening := schemas.Openning{}
+	opening := schemas.Opening{}
 
 	if err := db.First(&opening, id).Error; err != nil {
-		sendErro(ctx, http.StatusNotFound, "opening not found")
+		sendError(ctx, http.StatusNotFound, "opening not found")
 		return
 	}
 	//update opening
@@ -52,7 +52,7 @@ func UpdateOpeningHandler(ctx *gin.Context) {
 	//save opening
 	if err := db.Save(&opening).Error; err != nil {
 		logger.Errorf("error updating opening: %v", err.Error())
-		sendErro(ctx, http.StatusInternalServerError, "error updating opening")
+		sendError(ctx, http.StatusInternalServerError, "error updating opening")
 		return
 	}
 	sendSuccess(ctx, "update-opening", opening)

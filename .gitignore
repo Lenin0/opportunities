@@ -1,15 +1,15 @@
-# Binares
+# Binaries
 
-*.ex
-*.dl
+*.exe
+*.dll
 *.so
 *.dylib
 
-#test Binary
+# Test Binary
 
-*.test 
+*.test
 
-#Coverage
+# Coverage
 
 *.out
 

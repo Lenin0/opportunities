@@ -7,11 +7,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func ListOpeningHandler(ctx *gin.Context) {
-	openings := []schemas.Openning{}
+func ListOpeningsHandler(ctx *gin.Context) {
+	openings := []schemas.Opening{}
 
 	if err := db.Find(&openings).Error; err != nil {
-		sendErro(ctx, http.StatusInternalServerError, "error listing openings")
+		sendError(ctx, http.StatusInternalServerError, "error listing openings")
 		return
 	}
 

@@ -10,13 +10,13 @@ import (
 func ShowOpeningHandler(ctx *gin.Context) {
 	id := ctx.Query("id")
 	if id == "" {
-		sendErro(ctx, http.StatusBadRequest, errParamIsRequired("id", "queryParameter").Error())
+		sendError(ctx, http.StatusBadRequest, errParamIsRequired("id", "queryParameter").Error())
 		return
 	}
 
-	opening := schemas.Openning{}
+	opening := schemas.Opening{}
 	if err := db.First(&opening, id).Error; err != nil {
-		sendErro(ctx, http.StatusNotFound, "opening not found")
+		sendError(ctx, http.StatusNotFound, "opening not found")
 		return
 	}
 

@@ -7,22 +7,30 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @BasePath /api/v1
+
+// @Summary Create opening
+// @Description Create a new job opening
+// @Tags Openings
+// @Accept json
+// @Produce json
+// @Param request body CreateOpeningRequest true "Request body"
+// @Success 200 {object} CreateOpeningResponse
+// @Failure 400 {object} ErrorResponse
+// @Failure 500 {object} ErrorResponse
+// @Router /opening [post]
 func CreateOpeningHandler(ctx *gin.Context) {
-	var request CreateOpeningRequest
+	request := CreateOpeningRequest{}
 
-	if err := ctx.BindJSON(&request); err != nil {
-		logger.Errorf("invalid json: %v", err.Error())
-		sendErro(ctx, http.StatusBadRequest, "invalid JSON")
+	ctx.BindJSON(&request)
+
+	if err := request.Validate(); err != nil {
+		logger.Errorf("validation error: %v", err.Error())
+		sendError(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	if validationErrors := request.Validate(); len(validationErrors) > 0 {
-		logger.Errorf("validation errors: %v", validationErrors)
-		sendErro(ctx, http.StatusBadRequest, validationErrors)
-		return
-	}
-
-	opening := schemas.Openning{
+	opening := schemas.Opening{
 		Role:     request.Role,
 		Company:  request.Company,
 		Location: request.Location,
@@ -33,7 +41,7 @@ func CreateOpeningHandler(ctx *gin.Context) {
 
 	if err := db.Create(&opening).Error; err != nil {
 		logger.Errorf("error creating opening: %v", err.Error())
-		sendErro(ctx, http.StatusInternalServerError, "error crreating opening on database")
+		sendError(ctx, http.StatusInternalServerError, "error creating opening on database")
 		return
 	}
 

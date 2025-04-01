@@ -1,20 +1,19 @@
 .PHONY: default run build test docs clean
-
 # Variables
-APP_NAME=goportunites
+APP_NAME=gopportunities
 
-# Task
+# Tasks
 default: run-with-docs
 
-run: 
+run:
 	@go run main.go
 run-with-docs:
 	@swag init
 	@go run main.go
 build:
 	@go build -o $(APP_NAME) main.go
-test: 
-	@go test ./
+test:
+	@go test ./ ...
 docs:
 	@swag init
 clean:
