@@ -27,8 +27,9 @@ func GetSQlite() *gorm.DB {
 	return db
 }
 
-func GetLogger(p string) *Logger {
-
-	logger = NewLogger(p)
+func GetLogger(prefix string, level LogLevel, outputs ...string) *Logger {
+	if logger == nil {
+		logger = NewLogger(prefix, level, outputs...)
+	}
 	return logger
 }
